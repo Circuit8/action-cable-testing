@@ -24,6 +24,16 @@ module RSpec
             self
           end
 
+          def with_json(data = nil)
+            @data = data
+            ap data
+            ap data.class
+            @data = JSON.parse(@data) if @data.is_a?(String)
+            @data = @data.with_indifferent_access if @data.is_a?(Hash)
+            @block = Proc.new if block_given?
+            self
+          end
+
           def exactly(count)
             set_expected_number(:exactly, count)
             self
